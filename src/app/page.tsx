@@ -15,8 +15,19 @@ import {
 } from "react-icons/fa";
 import { SiTailwindcss, SiNextdotjs, SiNpm } from "react-icons/si";
 
+type SkillProps = {
+  icon: React.ReactNode;
+  label: string;
+};
+
+type Bubble = {
+  top: string;
+  left: string;
+  delay: string;
+};
+
 export default function Home() {
-  const [animationData, setAnimationData] = useState(null);
+  const [animationData, setAnimationData] = useState<any>(null);
 
   useEffect(() => {
     fetch("/girl-working.json")
@@ -28,16 +39,16 @@ export default function Home() {
     document.documentElement.classList.add("dark");
   }, []);
 
-  const Skill = ({ icon, label }) => (
+  const Skill = ({ icon, label }: SkillProps) => (
     <div className="flex flex-col items-center gap-2">
       <div className="text-5xl">{icon}</div>
       <div className="text-sm font-medium">{label}</div>
     </div>
   );
 
-  const [bubbles, setBubbles] = useState([]);
+  const [bubbles, setBubbles] = useState<Bubble[]>([]);
   useEffect(() => {
-    const generated = Array.from({ length: 15 }, (_, i) => ({
+    const generated: Bubble[] = Array.from({ length: 15 }, (_, i) => ({
       top: `${(i * 7) % 100}%`,
       left: `${(i * 13) % 100}%`,
       delay: `${i * 0.5}s`,
@@ -66,11 +77,11 @@ export default function Home() {
         <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-between px-10 py-24 gap-10">
           <div className="max-w-xl text-center md:text-left">
             <h1 className="text-4xl sm:text-5xl font-bold text-pink-400 mb-4">
-              HI ALL, I'M <span className="text-pink-300">NAHLA 👋</span>
+              HI ALL, I&apos;M <span className="text-pink-300">NAHLA 👋</span>
             </h1>
             <p className="text-white text-lg leading-relaxed">
               Passionate computer science student with a love for technology and
-              building creative digital experiences. I'm currently learning AI, web
+              building creative digital experiences. I&apos;m currently learning AI, web
               development, and always exploring new things.
             </p>
 
@@ -145,9 +156,11 @@ export default function Home() {
         className="bg-gray-800 py-20 px-8 text-center text-gray-200"
       >
         <h2 className="text-3xl sm:text-4xl font-bold text-pink-400 mb-6">
-          Let's Connect 💬
+          Let&apos;s Connect 💬
         </h2>
-        <p className="text-lg mb-6">Feel free to reach out to me via email or LinkedIn!</p>
+        <p className="text-lg mb-6">
+          Feel free to reach out to me via email or LinkedIn!
+        </p>
 
         <div className="flex justify-center gap-6 text-2xl text-pink-300">
           <a

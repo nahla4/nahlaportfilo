@@ -1,12 +1,12 @@
 // app/components/Navbar.tsx
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
 import { useState } from "react";
 
 export default function Navbar() {
   const [active, setActive] = useState<string>("");
-  const pathname = usePathname();
+  
 
   const navLinks = [
     { href: "#about", label: "About" },
