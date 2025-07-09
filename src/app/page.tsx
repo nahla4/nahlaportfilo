@@ -1,102 +1,178 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import Lottie from "lottie-react";
+import {
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaReact,
+  FaNodeJs,
+  FaPhp,
+  FaDatabase,
+  FaEnvelope,
+  FaLinkedin,
+} from "react-icons/fa";
+import { SiTailwindcss, SiNextdotjs, SiNpm } from "react-icons/si";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [animationData, setAnimationData] = useState(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+  useEffect(() => {
+    fetch("/girl-working.json")
+      .then((res) => res.json())
+      .then((data) => setAnimationData(data));
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
+
+  const Skill = ({ icon, label }) => (
+    <div className="flex flex-col items-center gap-2">
+      <div className="text-5xl">{icon}</div>
+      <div className="text-sm font-medium">{label}</div>
+    </div>
+  );
+
+  const [bubbles, setBubbles] = useState([]);
+  useEffect(() => {
+    const generated = Array.from({ length: 15 }, (_, i) => ({
+      top: `${(i * 7) % 100}%`,
+      left: `${(i * 13) % 100}%`,
+      delay: `${i * 0.5}s`,
+    }));
+    setBubbles(generated);
+  }, []);
+
+  return (
+    <div className="dark:bg-gray-900 dark:text-white transition-colors duration-500">
+      {/* Hero Section */}
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-800 via-gray-900 to-black">
+        <div className="absolute inset-0 z-0 animate-pulse">
+          {bubbles.map((b, i) => (
+            <div
+              key={i}
+              className="absolute w-10 h-10 bg-white rounded-full opacity-20 blur-2xl animate-float"
+              style={{
+                top: b.top,
+                left: b.left,
+                animationDelay: b.delay,
+              }}
+            ></div>
+          ))}
+        </div>
+
+        <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-between px-10 py-24 gap-10">
+          <div className="max-w-xl text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl font-bold text-pink-400 mb-4">
+              HI ALL, I'M <span className="text-pink-300">NAHLA 👋</span>
+            </h1>
+            <p className="text-white text-lg leading-relaxed">
+              Passionate computer science student with a love for technology and
+              building creative digital experiences. I'm currently learning AI, web
+              development, and always exploring new things.
+            </p>
+
+            <a
+              href="#"
+              className="inline-block mt-6 bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-3 rounded-full transition"
+            >
+              Download My Resume
+            </a>
+          </div>
+
+          <div className="w-[320px] h-[320px] rounded-full shadow-2xl ring-4 ring-pink-400 p-2 bg-white dark:bg-gray-800 flex items-center justify-center">
+            {animationData && (
+              <Lottie
+                animationData={animationData}
+                loop={true}
+                className="rounded-full"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Divider between nav and about */}
+      <div className="border-t border-pink-500"></div>
+
+      {/* Skills Section */}
+      <section id="skills" className="bg-gray-800 py-20 px-8 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold text-pink-400 mb-4">
+          What I Do
+        </h2>
+        <p className="text-xl font-semibold text-gray-300 mb-12">
+          A BEGINNER DEVELOPER WHO LOVES EXPLORING TECH 🤓
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-10 text-pink-300 text-xl">
+          <Skill icon={<FaHtml5 />} label="HTML 5" />
+          <Skill icon={<FaCss3Alt />} label="CSS" />
+          <Skill icon={<SiTailwindcss />} label="Tailwind CSS" />
+          <Skill icon={<FaJs />} label="JavaScript" />
+          <Skill icon={<FaReact />} label="React JS" />
+          <Skill icon={<SiNextdotjs />} label="Next JS" />
+          <Skill icon={<FaNodeJs />} label="Node JS" />
+          <Skill icon={<SiNpm />} label="Npm JS" />
+          <Skill icon={<FaDatabase />} label="SQL Database" />
+          <Skill icon={<FaPhp />} label="PHP" />
+        </div>
+      </section>
+
+      {/* Education Section */}
+      <section id="education" className="bg-gray-700 py-20 px-8 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold text-pink-300 mb-8">
+          My Education
+        </h2>
+
+        <div className="max-w-4xl mx-auto flex flex-col gap-6 text-left text-gray-200">
+          <div className="bg-gray-900 p-6 rounded-xl shadow-md border-l-4 border-pink-400">
+            <h3 className="text-xl font-bold text-pink-400">
+              Preparatory Studies – Higher School of Computer and Digital Sciences
+            </h3>
+            <p className="text-sm mt-2">
+              Completed two years of preparatory classes focusing on math, algorithms,
+              and electronics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section
+        id="contact"
+        className="bg-gray-800 py-20 px-8 text-center text-gray-200"
+      >
+        <h2 className="text-3xl sm:text-4xl font-bold text-pink-400 mb-6">
+          Let's Connect 💬
+        </h2>
+        <p className="text-lg mb-6">Feel free to reach out to me via email or LinkedIn!</p>
+
+        <div className="flex justify-center gap-6 text-2xl text-pink-300">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="mailto:saadinahla6@gmail.com"
+            className="hover:text-white transition"
             target="_blank"
-            rel="noopener noreferrer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            <FaEnvelope className="inline mr-2" />
+            saadinahla6@gmail.com
           </a>
+
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://www.linkedin.com/in/nahla-saadi-384605259/"
+            className="hover:text-white transition"
             target="_blank"
-            rel="noopener noreferrer"
           >
-            Read our docs
+            <FaLinkedin className="inline mr-2" />
+            LinkedIn
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-center text-sm py-6 text-white font-medium">
+        © {new Date().getFullYear()} Nahla Saadi. All rights reserved.
       </footer>
     </div>
   );
