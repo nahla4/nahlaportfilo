@@ -1,5 +1,6 @@
 "use client";
 
+import type { AnimationItem } from "lottie-web";
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import {
@@ -20,14 +21,8 @@ type SkillProps = {
   label: string;
 };
 
-type Bubble = {
-  top: string;
-  left: string;
-  delay: string;
-};
-
 export default function Home() {
-  const [animationData, setAnimationData] = useState<any>(null);
+  const [animationData, setAnimationData] = useState<AnimationItem | null>(null);
 
   useEffect(() => {
     fetch("/girl-working.json")
@@ -46,34 +41,10 @@ export default function Home() {
     </div>
   );
 
-  const [bubbles, setBubbles] = useState<Bubble[]>([]);
-  useEffect(() => {
-    const generated: Bubble[] = Array.from({ length: 15 }, (_, i) => ({
-      top: `${(i * 7) % 100}%`,
-      left: `${(i * 13) % 100}%`,
-      delay: `${i * 0.5}s`,
-    }));
-    setBubbles(generated);
-  }, []);
-
   return (
     <div className="dark:bg-gray-900 dark:text-white transition-colors duration-500">
       {/* Hero Section */}
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-800 via-gray-900 to-black">
-        <div className="absolute inset-0 z-0 animate-pulse">
-          {bubbles.map((b, i) => (
-            <div
-              key={i}
-              className="absolute w-10 h-10 bg-white rounded-full opacity-20 blur-2xl animate-float"
-              style={{
-                top: b.top,
-                left: b.left,
-                animationDelay: b.delay,
-              }}
-            ></div>
-          ))}
-        </div>
-
         <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-between px-10 py-24 gap-10">
           <div className="max-w-xl text-center md:text-left">
             <h1 className="text-4xl sm:text-5xl font-bold text-pink-400 mb-4">
